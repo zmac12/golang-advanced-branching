@@ -31,17 +31,20 @@ type bike struct {
 
 
 
-//Values Array from the Json File
+// Values array for the feedback.json file
 type Values struct {
 	Models []Model `json:"values"`
 }
 
-//Model feedback of the vehicles
+// Model array for the feedback.json file
 type Model struct {
 	Name      string   `json:"model"`
-	Feedbacks []string `json:"feedbacks"`
+	Feedback []string `json:"feedback"`
 }
 
+type rating float32
+var vehicleResult map[string]feedbackResult
+var inventory []vehicle
 
 const (
 	extraPositive rating = 1.2
@@ -58,9 +61,7 @@ type feedbackResult struct {
 	feedbackNeutral  int
 }
 
-type rating float32
-var vehicleResult map[string]feedbackResult
-var inventory []vehicle
+
 
 
 func init() {
@@ -83,10 +84,10 @@ func init() {
 
 func main() {
 
-	//Generate ratings for the different vehicles
+	// Generate ratings for the different vehicles
 	generateRating()
 
-	//Print ratings for the different vehicles
+	// Print ratings for the different vehicles
 	for _, veh:= range inventory {
 		switch v := veh.(type) {
 			case car:
@@ -157,7 +158,7 @@ func generateRating() {
 	for _, v := range f.Models {
 		var vehResult feedbackResult
 		var vehRating rating
-		for _, msg := range v.Feedbacks {
+		for _, msg := range v.Feedback {
 		
 			if text := strings.Split(msg, " ") ; len(text) >= 5 {
 				vehRating = 5.0
@@ -176,7 +177,7 @@ func generateRating() {
 					
 				}
 				switch {
-					case vehRating > 8.0:
+				case vehRating > 8.0:
 						vehResult.feedbackPositive++
 					case vehRating >= 4.0 && vehRating <= 8.0:
 						vehResult.feedbackNeutral++
