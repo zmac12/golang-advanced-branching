@@ -1,13 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"encoding/json"
-	"io/ioutil"
-	"log"
-	"os"
-	"strings"
+
 )
+
+// Values array for the feedback.json file
+
+
+// Model array for the feedback.json file
+
+
+
+type rating float32
 
 const (
 	extraPositive rating = 1.2
@@ -18,7 +22,7 @@ const (
 )
 
 func init() {
-
+/*
 	inventory = []vehicle{
 		bike{"FTR 1200", "Indian"},
 		bike{"Iron 1200", "Harley"},
@@ -31,13 +35,14 @@ func init() {
 		car{"Camry", "Toyota", "Sedan"},
 		truck{"F-150", "Ford",  "Truck" , },
 		truck{"RAM1500", "Dodge", "Truck"} }
+*/
 }
 
 func main() {
 
-	//Generate ratings for the different vehicles
+	// Generate ratings for the different vehicles
 
-	//Print ratings for the different vehicles
+	// Print ratings for the different vehicles
 }
 
  
