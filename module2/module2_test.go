@@ -72,6 +72,10 @@ func TestIfStmt(t *testing.T) {
 		t.Error("If statment is either not defined or missing the initialization and the condition is not correct.")
 	}
 
+	if !checkImports("\"strings\"") {
+		t.Error("Import the package `strings`")
+	}
+
 }
 
 // Task 8: Set variable values
