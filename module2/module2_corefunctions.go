@@ -316,9 +316,11 @@ func checkFuncGenerateRating(funcName string) bool {
 			funcDecl := decl.(*ast.FuncDecl)
 			if funcDecl.Name.String() == "main" {
 				for _, b := range funcDecl.Body.List {
-					e := b.(*ast.ExprStmt).X.(*ast.CallExpr)
-					if e.Fun.(*ast.Ident).String() == funcName {
-						foundFunc = true
+					if reflect.TypeOf(b).String() == "*ast.ExprStmt" {
+						e := b.(*ast.ExprStmt).X.(*ast.CallExpr)
+						if e.Fun.(*ast.Ident).String() == funcName {
+							foundFunc = true
+						}
 					}
 				}
 			}
