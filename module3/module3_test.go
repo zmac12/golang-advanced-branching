@@ -15,7 +15,7 @@ func TestShowRatingFuncIsDefined(t *testing.T) {
 // Task 2: ratingFound := false
 func TestVarIsDefined(t *testing.T) {
 	if !checkAssignedValue(funcBlock, "ratingFound:=false") {
-		t.Error("Variable `ratingFound` assigned to bool value `false` is not found")
+		t.Error("Variable `ratingFound` is not found")
 	}
 }
 
@@ -29,20 +29,21 @@ func TestForRangeFeedback(t *testing.T) {
 
 // Task 4: Check `if m == model`
 func TestIfStmt(t *testing.T) {
-	if !checkIfStmt(forBlock.Body, "m==model") {
-		t.Error("If statment is either not defined or condition is not correct.")
+	if forBlock != nil {
+		if !checkIfStmt(forBlock.Body, "m==model") {
+			t.Error("If statment with condition `m==model` is not defined.")
+		}
 	}
 }
-
 
 // Task 4: Statements under if
 func TestStmts(t *testing.T) {
 
 	if !checkStmts(ifBlock, "fmt.Printf") {
-		t.Error("If statment is either not defined or condition is not correct.")
+		t.Error("`fmt.Printf` statement is not defined under the if statement.")
 	}
 	if !checkStmts(ifBlock, "ratingFound=true") {
-		t.Error("rating not found is either not defined or condition is not correct.")
+		t.Error("Variable `ratingFound` is not assigned the bool value `true`.")
 	}
 
 }
@@ -50,13 +51,12 @@ func TestStmts(t *testing.T) {
 // Task 6: Check `if !ratingFound`
 func TestIfRatingFound(t *testing.T) {
 	if !checkIfStmt(funcBlock, "!ratingFound") {
-		t.Error("If statment is rating not found.")
+		t.Error("If statement with condition `!ratingFound` is not found.")
 	}
 
 	if !checkStmts(ifBlock, "fmt.Printf") {
-		t.Error("If statment is either not defined or condition is not correct.")
+		t.Error("Statment `fmt.Printf` is not defined under the If statement.")
 	}
-
 
 }
 
