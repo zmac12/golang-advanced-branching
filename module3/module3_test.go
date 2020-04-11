@@ -30,7 +30,7 @@ func TestForRangeFeedback(t *testing.T) {
 // Task 4: Check `if m == model`
 func TestIfStmt(t *testing.T) {
 	if forBlock != nil {
-		if !checkIfStmt(forBlock.Body, "m==model") {
+		if !checkIfStmt(forBlock.Body, "m==model") && !checkIfStmt(forBlock.Body, "model==m"){
 			t.Error("If statment with condition `m==model` is not defined.")
 		}
 	}
