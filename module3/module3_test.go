@@ -30,7 +30,7 @@ func TestForRangeFeedback(t *testing.T) {
 // Task 4: Check `if m == model`
 func TestIfStmt(t *testing.T) {
 	if forBlock != nil {
-		if !checkIfStmt(forBlock.Body, "m==model") && !checkIfStmt(forBlock.Body, "model==m"){
+		if !checkIfStmt(forBlock.Body, "m==model") && !checkIfStmt(forBlock.Body, "model==m") {
 			t.Error("If statment with condition `m==model` is not defined.")
 		}
 	}
@@ -65,6 +65,10 @@ func TestCarDetailsMethod(t *testing.T) {
 	if !checkMethod("carDetails", "c *car") {
 		t.Error("Create method `carDetails()` which has a receiver of type `*car` named `c`")
 	}
+	if methodBlock != nil && len(methodBlock.List) != 2 {
+		t.Error("Method `carDetails()`: Either statement `fmt.Printf` is not defined or call to function `showRating()` not found.")
+
+	}
 
 }
 
@@ -72,6 +76,11 @@ func TestCarDetailsMethod(t *testing.T) {
 func TestBikeDetailsMethod(t *testing.T) {
 	if !checkMethod("bikeDetails", "b *bike") {
 		t.Error("Create method `bikeDetails()` which has a receiver of type `*bike`named `b`")
+	}
+
+	if methodBlock != nil && len(methodBlock.List) != 2 {
+		t.Error("Method `bikeDetails()`: Either statement `fmt.Printf` is not defined or call to function `showRating()` not found.")
+
 	}
 
 }
@@ -82,6 +91,11 @@ func TestTruckDetailsMethod(t *testing.T) {
 		t.Error("Create method `truckDetails()` which has a receiver of type `*truck` named `t`")
 	}
 
+	
+	if methodBlock != nil && len(methodBlock.List) != 2 {
+		t.Error("Method `TruckDetails()`: Either statement `fmt.Printf` is not defined or call to function `showRating()` not found.")
+
+	}
 }
 
 // Task 10: Check `for _, veh:= range inventory`

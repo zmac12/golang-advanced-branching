@@ -12,8 +12,8 @@ import (
 	"runtime"
 )
 
-var ifBlock , funcBlock *ast.BlockStmt = nil , nil
-var mainForStmt , forBlock *ast.RangeStmt = nil , nil
+var ifBlock, funcBlock, methodBlock *ast.BlockStmt = nil, nil, nil
+var mainForStmt, forBlock *ast.RangeStmt = nil, nil
 
 // ------------------------------------- Compute functions -------------------------------
 
@@ -128,7 +128,7 @@ func checkIfStmt(blck *ast.BlockStmt, cond string) bool {
 				}
 			} else if c.Cond != nil && reflect.TypeOf(c.Cond).String() == "*ast.UnaryExpr" {
 				g := c.Cond.(*ast.UnaryExpr)
-				str := fmt.Sprintf("%v%v", g.Op , g.X)
+				str := fmt.Sprintf("%v%v", g.Op, g.X)
 				if str == cond {
 					foundIfStmt = true
 					ifBlock = c.Body
@@ -141,7 +141,7 @@ func checkIfStmt(blck *ast.BlockStmt, cond string) bool {
 }
 
 // Task 5 and 6
-func checkStmts(blck *ast.BlockStmt, stmt string ) bool {
+func checkStmts(blck *ast.BlockStmt, stmt string) bool {
 
 	var foundStmt = false
 
@@ -151,14 +151,14 @@ func checkStmts(blck *ast.BlockStmt, stmt string ) bool {
 
 	for _, b := range blck.List {
 		if reflect.TypeOf(b).String() == "*ast.ExprStmt" { // ExprStmt
-			c:= b.(*ast.ExprStmt).X.(*ast.CallExpr).Fun.(*ast.SelectorExpr)
-			str := fmt.Sprintf("%v.%v", c.X , c.Sel)
+			c := b.(*ast.ExprStmt).X.(*ast.CallExpr).Fun.(*ast.SelectorExpr)
+			str := fmt.Sprintf("%v.%v", c.X, c.Sel)
 			if str == stmt {
 				foundStmt = true
 				break
 			}
-			
-		} else if  reflect.TypeOf(b).String() == "*ast.AssignStmt" { // AssignStmt
+
+		} else if reflect.TypeOf(b).String() == "*ast.AssignStmt" { // AssignStmt
 			s := b.(*ast.AssignStmt)
 			str := fmt.Sprintf("%v%v%v", s.Lhs[0], s.Tok, s.Rhs[0].(*ast.Ident))
 			if str == stmt {
@@ -175,16 +175,17 @@ func checkMethod(methodName, name string) bool {
 
 	f := readFile()
 	foundMethod := false
-
+	methodBlock = nil
 	for _, decl := range f.Decls {
 		if reflect.TypeOf(decl).String() == "*ast.FuncDecl" {
 			funcDecl := decl.(*ast.FuncDecl)
-			if funcDecl.Name.String() == methodName && len(funcDecl.Recv.List) == 1{
+			if funcDecl.Name.String() == methodName && len(funcDecl.Recv.List) == 1 {
 				m := funcDecl.Recv.List[0]
 				s := m.Type.(*ast.StarExpr)
-				str := fmt.Sprintf("%v *%v", m.Names[0] , s.X)	
+				str := fmt.Sprintf("%v *%v", m.Names[0], s.X)
 				if str == name {
 					foundMethod = true
+					methodBlock = funcDecl.Body
 					break
 				}
 			}
@@ -225,7 +226,7 @@ func checkForWithinMain(funcName, key, value, x string) bool {
 // Task 11: Check Switch for type
 func checkSwitchType(blck *ast.RangeStmt, exp string) bool {
 	var foundSwitch = false
-	
+
 	if blck == nil {
 		return false
 	}
@@ -234,8 +235,8 @@ func checkSwitchType(blck *ast.RangeStmt, exp string) bool {
 		if reflect.TypeOf(b).String() == "*ast.TypeSwitchStmt" {
 			s := b.(*ast.TypeSwitchStmt).Assign.(*ast.AssignStmt)
 			t := s.Rhs[0].(*ast.TypeAssertExpr)
-			str := fmt.Sprintf("%v%v%v.(type)", s.Lhs[0] , s.Tok , t.X )
-			if str ==exp && len(b.(*ast.TypeSwitchStmt).Body.List)==4    {
+			str := fmt.Sprintf("%v%v%v.(type)", s.Lhs[0], s.Tok, t.X)
+			if str == exp && len(b.(*ast.TypeSwitchStmt).Body.List) == 4 {
 				foundSwitch = true
 				break
 			}
