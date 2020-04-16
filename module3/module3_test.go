@@ -29,11 +29,12 @@ func TestForRangeFeedback(t *testing.T) {
 
 // Task 4: Check `if m == model`
 func TestIfStmt(t *testing.T) {
-	if forBlock != nil {
-		if !checkIfStmt(forBlock.Body, "m==model") && !checkIfStmt(forBlock.Body, "model==m") {
-			t.Error("If statment with condition `m==model` is not defined.")
-		}
+	if forBlock == nil {
+		t.Error("If statment with condition `m==model` is not defined.")
+	} else if !checkIfStmt(forBlock.Body, "m==model") && !checkIfStmt(forBlock.Body, "model==m") {
+		t.Error("If statment with condition `m==model` is not defined.")
 	}
+
 }
 
 // Task 4: Statements under if
@@ -91,7 +92,6 @@ func TestTruckDetailsMethod(t *testing.T) {
 		t.Error("Create method `truckDetails()` which has a receiver of type `*truck` named `t`")
 	}
 
-	
 	if methodBlock != nil && len(methodBlock.List) != 2 {
 		t.Error("Method `TruckDetails()`: Either statement `fmt.Printf` is not defined or call to function `showRating()` not found.")
 
